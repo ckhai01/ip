@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.ArrayList;
 
 public class LeBot {
     public static void main(String[] args) {
@@ -30,9 +31,9 @@ public class LeBot {
                 ⢀⣠⣶⣿⣿⣿⡉⠉⠀⠀⢸⠀⣿⠸⠀⠀⠀⠀⠀⠀⢀⡤⠄⠈⠙⢒⢦⢀⢈⣉⡉⡁⠀⢀⠀⠀⠀⠀⠀⠈⠛⠛⠛⠻⠿⡛⠛⠈⡇⢸⠀⠀⠀⠀⢸⡟⠳⢆⢈⣿⣄""";
         System.out.println(lebron);
         System.out.println("Yo, what’s good! It's LeBot James in the building! What can I help you with today? Let's get it!");
-        Task[] toDo = new Task[100];
+        //Task[] toDo = new Task[100];
+        ArrayList<Task> list = new ArrayList<>();
         String input;
-        int counter = 0;
         boolean repeat = true;
         while (repeat) {
             Scanner inputScanner = new Scanner(System.in);
@@ -43,22 +44,22 @@ public class LeBot {
 
             switch (parsedInput.getAction()) {
                 case "list":
-                    if (counter==0) {
+                    if (list.isEmpty()) {
                         System.out.println("Haven’t added anything yet? Can’t win a game if you don’t put the ball" +
                                 " in play. Gotta set the goals before you chase them.");
                         break;
                     }
 
                     System.out.println("Here’s the list. No excuses, no shortcuts. One by one, we knock these down.");
-                    for (int i=0; i < counter; i++) {
-                        System.out.println(i+1 + "." + toDo[i]);
+                    for (int i=0; i < list.size(); i++) {
+                        System.out.println(i+1 + "." + list.get(i));
                     }
                     break;
                 case "mark":
                     try {
                         int number = Integer.parseInt(parsedInput.getDesc()) - 1;
-                        toDo[number].markAsDone();
-                        System.out.println("Checked it off the list. Another step closer to greatness: " + toDo[number]);
+                        list.get(number).markAsDone();
+                        System.out.println("Checked it off the list. Another step closer to greatness: " + list.get(number));
                     } catch (NumberFormatException e) {
                         System.out.println("Enter a real number... locked in, focused. No shortcuts, just the truth.");
                     } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
@@ -68,8 +69,8 @@ public class LeBot {
                 case "unmark":
                     try {
                         int number = Integer.parseInt(parsedInput.getDesc()) - 1;
-                        toDo[number].unmarkAsDone();
-                        System.out.println("Alright, not done yet. Back in the lab, time to finish the job: " + toDo[number]);
+                        list.get(number).unmarkAsDone();
+                        System.out.println("Alright, not done yet. Back in the lab, time to finish the job: " + list.get(number));
                     } catch (NumberFormatException e) {
                         System.out.println("Enter a real number... locked in, focused. No shortcuts, just the truth.");
                     } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
@@ -87,11 +88,10 @@ public class LeBot {
                         break;
                     }
                     ToDo todo = new ToDo(parsedInput.getDesc());
-                    toDo[counter] = todo;
+                    list.add(todo);
                     System.out.println("Got it. Next task on the list: ");
                     System.out.println(todo);
-                    counter++;
-                    System.out.println(counter + " tasks on the board. Lock in.");
+                    System.out.println(list.size() + " tasks on the board. Lock in.");
                     break;
 
                 case "deadline":
@@ -100,11 +100,10 @@ public class LeBot {
                     if (matcher.find()) {
                         String match = matcher.group(1);
                         Deadline deadline = new Deadline(parsedInput.getDesc().replace("/by " + match, ""), match);
-                        toDo[counter] = deadline;
+                        list.add(deadline);
                         System.out.println("Got it. Next task on the list: ");
                         System.out.println(deadline);
-                        counter++;
-                        System.out.println(counter + " tasks on the board. Lock in.");
+                        System.out.println(list.size() + " tasks on the board. Lock in.");
                     }
                     else {
                         System.out.println("No deadline set, can't achieve greatness like that.");
@@ -123,15 +122,28 @@ public class LeBot {
                         String newDesc = parsedInput.getDesc().replace("/to " + to, "")
                                 .replace("/from " + from, "");
                         Event event = new Event(newDesc, to, from);
-                        toDo[counter] = event;
+                        list.add(event);
                         System.out.println("Got it. Next task on the list: ");
                         System.out.println(event);
-                        counter++;
-                        System.out.println(counter + " tasks on the board. Lock in.");
+                        System.out.println(list.size() + " tasks on the board. Lock in.");
                     }
 
                     else {
                         System.out.println("Gotta specify a time window. Eyes on the prize.");
+                    }
+                    break;
+
+                case "delete":
+                    try {
+                        int number = Integer.parseInt(parsedInput.getDesc()) - 1;
+                        Task tempTask = list.get(number);
+                        System.out.println("Scratched it off the list. Recenter yourself: " + tempTask);
+                        list.remove(number);
+                        System.out.println("Now you have " + list.size() + " tasks on the board.");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Enter a real number... locked in, focused. No shortcuts, just the truth.");
+                    } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
+                        System.out.println("Out of bounds?? Gotta stay within the limits, stay disciplined. Fundamentals matter.");
                     }
                     break;
 
