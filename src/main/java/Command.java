@@ -1,7 +1,7 @@
 public class Command {
     protected String action;
     protected String desc;
-    protected String[] param;
+
 
 
     public Command(String input) {
@@ -9,7 +9,6 @@ public class Command {
         String description = input.replaceFirst(splitted[0] + " ", "");
         this.action = splitted[0];
         this.desc=description;
-
     }
 
     @Override

@@ -20,10 +20,6 @@ public class Task {
     }
 
     public String toString() {
-        return description;
-    }
-
-    public String getStatusText() {
         return getStatusIcon() + " " + description;
     }
 }
