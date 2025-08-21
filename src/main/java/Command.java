@@ -6,9 +6,16 @@ public class Command {
 
     public Command(String input) {
         String[] splitted = input.split("\\s+");
-        String description = input.replaceFirst(splitted[0] + " ", "");
+        String description;
+        if (splitted.length == 1) {
+            description = "";
+        }
+        else {
+            description = input.replaceFirst(splitted[0] + " ", "");
+        }
+
         this.action = splitted[0];
-        this.desc=description;
+        this.desc = description;
     }
 
     @Override
