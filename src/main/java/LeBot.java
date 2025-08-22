@@ -31,12 +31,11 @@ public class LeBot {
                 ⢀⣠⣶⣿⣿⣿⡉⠉⠀⠀⢸⠀⣿⠸⠀⠀⠀⠀⠀⠀⢀⡤⠄⠈⠙⢒⢦⢀⢈⣉⡉⡁⠀⢀⠀⠀⠀⠀⠀⠈⠛⠛⠛⠻⠿⡛⠛⠈⡇⢸⠀⠀⠀⠀⢸⡟⠳⢆⢈⣿⣄""";
         System.out.println(lebron);
         System.out.println("Yo, what’s good! It's LeBot James in the building! What can I help you with today? Let's get it!");
-        //Task[] toDo = new Task[100];
         ArrayList<Task> list = new ArrayList<>();
         String input;
         boolean repeat = true;
+        Scanner inputScanner = new Scanner(System.in);
         while (repeat) {
-            Scanner inputScanner = new Scanner(System.in);
             System.out.print("Enter: ");
             input = inputScanner.nextLine();
 

@@ -1,0 +1,11 @@
+todo ToDo: Task 1
+deadline Deadline: Task 2 /by 1400
+deadline Deadline: Fail /byasdasda 1400
+deadline Deadline: Fail 1400
+deadline
+event Event: Task 3 /from 1500 /to 1800
+event event: Task 4 /from 1700 /to 1800
+event Fail /to 1800
+event Fail /from 1800
+event
+bye
