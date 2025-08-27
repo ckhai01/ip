@@ -4,8 +4,17 @@ import java.util.regex.Pattern;
 import java.util.ArrayList;
 
 public class LeBot {
-    public static void main(String[] args) {
+    private static final Pattern DEADLINE_BY = Pattern.compile("/by (\\S+)");
+    private static final Pattern EVENT_TO = Pattern.compile("/to (\\S+)");
+    private static final Pattern EVENT_FROM = Pattern.compile("/from (\\S+)");
 
+    public static void main(String[] args) {
+        displayIntro();
+        ArrayList<Task> list = new ArrayList<>();
+        mainLoop(list);
+    }
+
+    private static void displayIntro() {
         String lebron = """
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣶⣾⣿⣿⣿⣶⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⠛⠛⠉⠉⠉⠉⠛⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -22,7 +31,7 @@ public class LeBot {
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣦⡀⠿⠃⣀⣴⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⣿⣿⣿⣿⣿⣷⣶⣶⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣀⡀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣼⠏⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠉⣿⣿⣿⣿⠛⡗⠶⢤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣼⠏⠙⢿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠉⣿⣿⣿⣿⠛⡗⠶⢤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⣾⠻⣿⡟⣿⠀⠀⠀⠀⠈⠛⢉⣠⡝⠋⠉⠀⠀⠀⢻⣯⣿⠇⣼⢃⡆⠀⠈⠙⡶⢤⢤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡤⠞⠋⢳⡘⣧⡹⣿⡹⡇⠀⠀⠀⠀⠀⠚⠛⠀⠀⠀⠀⠀⠀⣼⣿⠏⣰⠋⡜⠀⠀⠀⠀⡇⢸⢸⣷⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⢻⠛⡇⠀⠀⠀⠳⣌⢷⡌⢷⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⠏⣴⠋⠐⠁⡀⠀⠀⠀⡇⢸⢸⣿⢹⣯⣻⣷⣦⣤⡀⠀⠀⠀⠀
@@ -31,126 +40,145 @@ public class LeBot {
                 ⢀⣠⣶⣿⣿⣿⡉⠉⠀⠀⢸⠀⣿⠸⠀⠀⠀⠀⠀⠀⢀⡤⠄⠈⠙⢒⢦⢀⢈⣉⡉⡁⠀⢀⠀⠀⠀⠀⠀⠈⠛⠛⠛⠻⠿⡛⠛⠈⡇⢸⠀⠀⠀⠀⢸⡟⠳⢆⢈⣿⣄""";
         System.out.println(lebron);
         System.out.println("Yo, what’s good! It's LeBot James in the building! What can I help you with today? Let's get it!");
-        ArrayList<Task> list = new ArrayList<>();
-        String input;
-        boolean repeat = true;
+    }
+
+    private static void mainLoop(ArrayList<Task> list) {
         Scanner inputScanner = new Scanner(System.in);
+        boolean repeat = true;
         while (repeat) {
             System.out.print("Enter: ");
-            input = inputScanner.nextLine();
-
+            String input = inputScanner.nextLine();
             Command parsedInput = new Command(input);
-
-            switch (parsedInput.getAction()) {
-                case "list":
-                    if (list.isEmpty()) {
-                        System.out.println("Haven’t added anything yet? Can’t win a game if you don’t put the ball" +
-                                " in play. Gotta set the goals before you chase them.");
-                        break;
-                    }
-
-                    System.out.println("Here’s the list. No excuses, no shortcuts. One by one, we knock these down.");
-                    for (int i=0; i < list.size(); i++) {
-                        System.out.println(i+1 + "." + list.get(i));
-                    }
-                    break;
-                case "mark":
-                    try {
-                        int number = Integer.parseInt(parsedInput.getDesc()) - 1;
-                        list.get(number).markAsDone();
-                        System.out.println("Checked it off the list. Another step closer to greatness: " + list.get(number));
-                    } catch (NumberFormatException e) {
-                        System.out.println("Enter a real number... locked in, focused. No shortcuts, just the truth.");
-                    } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-                        System.out.println("Out of bounds?? Gotta stay within the limits, stay disciplined. Fundamentals matter.");
-                    }
-                    break;
-                case "unmark":
-                    try {
-                        int number = Integer.parseInt(parsedInput.getDesc()) - 1;
-                        list.get(number).unmarkAsDone();
-                        System.out.println("Alright, not done yet. Back in the lab, time to finish the job: " + list.get(number));
-                    } catch (NumberFormatException e) {
-                        System.out.println("Enter a real number... locked in, focused. No shortcuts, just the truth.");
-                    } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-                        System.out.println("Out of bounds?? Gotta stay within the limits, stay disciplined. Fundamentals matter.");
-                    }
-                    break;
-                case "bye":
-                    repeat = false;
-                    System.out.println("Ayy, take care! Hope to see you soon! Stay blessed.");
-                    break;
-                case "todo":
-
-                    if (parsedInput.getDesc().isEmpty()) {
-                        System.out.println("ToDo cannot be empty. Gotta put the ball in play.");
-                        break;
-                    }
-                    ToDo todo = new ToDo(parsedInput.getDesc());
-                    list.add(todo);
-                    System.out.println("Got it. Next task on the list: ");
-                    System.out.println(todo);
-                    System.out.println(list.size() + " tasks on the board. Lock in.");
-                    break;
-
-                case "deadline":
-                    Pattern pattern = Pattern.compile("/by (\\S+)");
-                    Matcher matcher = pattern.matcher(parsedInput.getDesc());
-                    if (matcher.find()) {
-                        String match = matcher.group(1);
-                        Deadline deadline = new Deadline(parsedInput.getDesc().replace("/by " + match, ""), match);
-                        list.add(deadline);
-                        System.out.println("Got it. Next task on the list: ");
-                        System.out.println(deadline);
-                        System.out.println(list.size() + " tasks on the board. Lock in.");
-                    }
-                    else {
-                        System.out.println("No deadline set, can't achieve greatness like that.");
-                    }
-                    break;
-
-                case "event":
-                    Pattern toPattern = Pattern.compile("/to (\\S+)");
-                    Pattern fromPattern = Pattern.compile("/from (\\S+)");
-                    Matcher toMatcher = toPattern.matcher(parsedInput.getDesc());
-                    Matcher fromMatcher = fromPattern.matcher(parsedInput.getDesc());
-
-                    if (toMatcher.find() && fromMatcher.find()) {
-                        String to = toMatcher.group(1);
-                        String from = fromMatcher.group(1);
-                        String newDesc = parsedInput.getDesc().replace("/to " + to, "")
-                                .replace("/from " + from, "");
-                        Event event = new Event(newDesc, to, from);
-                        list.add(event);
-                        System.out.println("Got it. Next task on the list: ");
-                        System.out.println(event);
-                        System.out.println(list.size() + " tasks on the board. Lock in.");
-                    }
-
-                    else {
-                        System.out.println("Gotta specify a time window. Eyes on the prize.");
-                    }
-                    break;
-
-                case "delete":
-                    try {
-                        int number = Integer.parseInt(parsedInput.getDesc()) - 1;
-                        Task tempTask = list.get(number);
-                        System.out.println("Scratched it off the list. Recenter yourself: " + tempTask);
-                        list.remove(number);
-                        System.out.println("Now you have " + list.size() + " tasks on the board.");
-                    } catch (NumberFormatException e) {
-                        System.out.println("Enter a real number... locked in, focused. No shortcuts, just the truth.");
-                    } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-                        System.out.println("Out of bounds?? Gotta stay within the limits, stay disciplined. Fundamentals matter.");
-                    }
-                    break;
-
-                default:
-                    System.out.println("Invalid input? Happens. Adjust, refocus, try again. That’s how you grow.");
-                    break;
-            }
+            repeat = dispatchAction(parsedInput, list);
         }
     }
 
+    private static boolean dispatchAction(Command parsedInput, ArrayList<Task> list) {
+        switch (parsedInput.getAction()) {
+            case "list":
+                printList(list);
+                return true;
+            case "mark":
+                markTask(list, parsedInput.getDesc());
+                return true;
+            case "unmark":
+                unmarkTask(list, parsedInput.getDesc());
+                return true;
+            case "bye":
+                System.out.println("Ayy, take care! Hope to see you soon! Stay blessed.");
+                return false;
+            case "todo":
+                createTodo(list, parsedInput.getDesc());
+                return true;
+            case "deadline":
+                createDeadline(list, parsedInput.getDesc());
+                return true;
+            case "event":
+                createEvent(list, parsedInput.getDesc());
+                return true;
+            case "delete":
+                deleteTask(list, parsedInput.getDesc());
+                return true;
+            default:
+                System.out.println("Invalid input? Happens. Adjust, refocus, try again. That’s how you grow.");
+                return true;
+        }
+    }
+
+    private static void printList(ArrayList<Task> list) {
+        if (list.isEmpty()) {
+            System.out.println("Haven’t added anything yet? Can’t win a game if you don’t put the ball" +
+                    " in play. Gotta set the goals before you chase them.");
+            return;
+        }
+        System.out.println("Here’s the list. No excuses, no shortcuts. One by one, we knock these down.");
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(i + 1 + "." + list.get(i));
+        }
+    }
+
+    private static void markTask(ArrayList<Task> list, String desc) {
+        try {
+            int number = parseIndex(desc);
+            list.get(number).markAsDone();
+            System.out.println("Checked it off the list. Another step closer to greatness: " + list.get(number));
+        } catch (NumberFormatException e) {
+            System.out.println("Enter a real number... locked in, focused. No shortcuts, just the truth.");
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
+            System.out.println("Out of bounds?? Gotta stay within the limits, stay disciplined. Fundamentals matter.");
+        }
+    }
+
+    private static void unmarkTask(ArrayList<Task> list, String desc) {
+        try {
+            int number = parseIndex(desc);
+            list.get(number).unmarkAsDone();
+            System.out.println("Alright, not done yet. Back in the lab, time to finish the job: " + list.get(number));
+        } catch (NumberFormatException e) {
+            System.out.println("Enter a real number... locked in, focused. No shortcuts, just the truth.");
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
+            System.out.println("Out of bounds?? Gotta stay within the limits, stay disciplined. Fundamentals matter.");
+        }
+    }
+
+    private static void createTodo(ArrayList<Task> list, String desc) {
+        if (desc.isEmpty()) {
+            System.out.println("ToDo cannot be empty. Gotta put the ball in play.");
+            return;
+        }
+        ToDo todo = new ToDo(desc);
+        addTask(list, todo);
+    }
+
+    private static void createDeadline(ArrayList<Task> list, String desc) {
+        String match = findGroup(DEADLINE_BY, desc);
+        if (match != null) {
+            Deadline deadline = new Deadline(desc.replace("/by " + match, ""), match);
+            addTask(list, deadline);
+        } else {
+            System.out.println("No deadline set, can't achieve greatness like that.");
+        }
+    }
+
+    private static void createEvent(ArrayList<Task> list, String desc) {
+        String to = findGroup(EVENT_TO, desc);
+        String from = findGroup(EVENT_FROM, desc);
+        if (to != null && from != null) {
+            String newDesc = desc.replace("/to " + to, "").replace("/from " + from, "");
+            Event event = new Event(newDesc, to, from);
+            addTask(list, event);
+        } else {
+            System.out.println("Gotta specify a time window. Eyes on the prize.");
+        }
+    }
+
+    private static void deleteTask(ArrayList<Task> list, String desc) {
+        try {
+            int number = parseIndex(desc);
+            Task tempTask = list.get(number);
+            System.out.println("Scratched it off the list. Recenter yourself: " + tempTask);
+            list.remove(number);
+            System.out.println("Now you have " + list.size() + " tasks on the board.");
+        } catch (NumberFormatException e) {
+            System.out.println("Enter a real number... locked in, focused. No shortcuts, just the truth.");
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
+            System.out.println("Out of bounds?? Gotta stay within the limits, stay disciplined. Fundamentals matter.");
+        }
+    }
+
+    private static int parseIndex(String desc) {
+        return Integer.parseInt(desc) - 1;
+    }
+
+    private static String findGroup(Pattern pattern, String text) {
+        Matcher matcher = pattern.matcher(text);
+        return matcher.find() ? matcher.group(1) : null;
+    }
+
+    private static void addTask(ArrayList<Task> list, Task task) {
+        list.add(task);
+        System.out.println("Got it. Next task on the list: ");
+        System.out.println(task);
+        System.out.println(list.size() + " tasks on the board. Lock in.");
+    }
 }
