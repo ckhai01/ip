@@ -1,7 +1,14 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.stream.Collectors;
 
 public class LeBot {
     private static final Pattern DEADLINE_BY = Pattern.compile("/by (\\S+)");
@@ -10,7 +17,7 @@ public class LeBot {
 
     public static void main(String[] args) {
         displayIntro();
-        ArrayList<Task> list = new ArrayList<>();
+        ArrayList<Task> list = loadList();
         mainLoop(list);
     }
 
@@ -158,6 +165,7 @@ public class LeBot {
             Task tempTask = list.get(number);
             System.out.println("Scratched it off the list. Recenter yourself: " + tempTask);
             list.remove(number);
+            saveList(list);
             System.out.println("Now you have " + list.size() + " tasks on the board.");
         } catch (NumberFormatException e) {
             System.out.println("Enter a real number... locked in, focused. No shortcuts, just the truth.");
@@ -177,8 +185,59 @@ public class LeBot {
 
     private static void addTask(ArrayList<Task> list, Task task) {
         list.add(task);
+        saveList(list);
         System.out.println("Got it. Next task on the list: ");
         System.out.println(task);
         System.out.println(list.size() + " tasks on the board. Lock in.");
+    }
+
+    private static void saveList(ArrayList<Task> list) {
+        Path path = Path.of("../../data/LeBot.txt");
+        try {
+            if (path.getParent() != null) {
+                Files.createDirectories(path.getParent());
+            }
+            String content = list.stream()
+                    .map(Task::formattedString)
+                    .collect(Collectors.joining(System.lineSeparator()));
+
+            Files.writeString(
+                    path,
+                    content,
+                    StandardOpenOption.CREATE,
+                    StandardOpenOption.TRUNCATE_EXISTING
+            );
+        } catch (IOException e) {
+            return;
+        }
+    }
+
+    private static ArrayList<Task> loadList() {
+        ArrayList<Task> list = new ArrayList<>();
+        try {
+            Scanner s = new Scanner(new File("../../data/LeBot.txt"));
+            Task task;
+            while (s.hasNextLine()) {
+                String[] tempList = s.nextLine().split("\\|");
+                String type = tempList[0];
+
+                switch (type) {
+                    case "T" -> task = new ToDo(tempList[2]);
+                    case "D" -> task = new Deadline(tempList[2], tempList[3]);
+                    case "E" -> task = new Event(tempList[2], tempList[3], tempList[4]);
+                    default -> task = new Task(tempList[0]);
+                }
+                if (tempList[1].equals("1")) {
+                    task.markAsDone();
+                }
+                list.add(task);
+
+            }
+            s.close();
+            return list;
+        }
+        catch (FileNotFoundException e) {
+            return new ArrayList<Task>();
+        }
     }
 }
