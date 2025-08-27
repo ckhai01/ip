@@ -1,6 +1,5 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 
 public class Event extends Task {
     protected LocalDate to;
@@ -8,8 +7,8 @@ public class Event extends Task {
 
     Event(String desc, String to, String from) {
         super(desc);
-        this.to = LocalDate.parse(to, DateTimeFormatter.ofPattern("dd/MM/yyyy"));;
-        this.from = LocalDate.parse(from, DateTimeFormatter.ofPattern("dd/MM/yyyy"));;
+        this.to = LocalDate.parse(to, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.from = LocalDate.parse(from, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public String toString() {
