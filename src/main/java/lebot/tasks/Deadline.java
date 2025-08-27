@@ -1,10 +1,12 @@
+package lebot.tasks;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Deadline extends Task {
     protected LocalDate due;
 
-    Deadline(String desc, String due) {
+    public Deadline(String desc, String due) {
         super(desc);
         this.due = LocalDate.parse(due, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }

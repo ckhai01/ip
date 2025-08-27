@@ -1,5 +1,7 @@
+package lebot.tasks;
+
 public class ToDo extends Task {
-    ToDo(String input) {
+    public ToDo(String input) {
         super(input);
     }
 

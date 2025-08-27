@@ -1,3 +1,8 @@
+package lebot.tasks;
+
+import lebot.storage.Storage;
+import lebot.ui.Ui;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -41,6 +46,7 @@ public class TaskList {
         try {
             int number = parseIndex(desc);
             this.list.get(number).markAsDone();
+            Storage.saveList(this.list);
             Ui.showMark(this.list.get(number));
         } catch (NumberFormatException e) {
             Ui.showNumberError();
@@ -53,6 +59,7 @@ public class TaskList {
         try {
             int number = parseIndex(desc);
             this.list.get(number).unmarkAsDone();
+            Storage.saveList(this.list);
             Ui.showUnmark(this.list.get(number));
         } catch (NumberFormatException e) {
             Ui.showNumberError();

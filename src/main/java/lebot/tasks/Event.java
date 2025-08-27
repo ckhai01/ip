@@ -1,3 +1,5 @@
+package lebot.tasks;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -5,7 +7,7 @@ public class Event extends Task {
     protected LocalDate to;
     protected LocalDate from;
 
-    Event(String desc, String to, String from) {
+    public Event(String desc, String to, String from) {
         super(desc);
         this.to = LocalDate.parse(to, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         this.from = LocalDate.parse(from, DateTimeFormatter.ofPattern("dd/MM/yyyy"));

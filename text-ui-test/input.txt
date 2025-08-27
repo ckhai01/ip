@@ -1,10 +1,10 @@
-todo ToDo: Task 1
-deadline Deadline: Task 2 /by 1400
-deadline Deadline: Fail /byasdasda 1400
-deadline Deadline: Fail 1400
+todo lebot.tasks.ToDo: lebot.tasks.Task 1
+deadline lebot.tasks.Deadline: lebot.tasks.Task 2 /by 1400
+deadline lebot.tasks.Deadline: Fail /byasdasda 1400
+deadline lebot.tasks.Deadline: Fail 1400
 deadline
-event Event: Task 3 /from 1500 /to 1800
-event event: Task 4 /from 1700 /to 1800
+event lebot.tasks.Event: lebot.tasks.Task 3 /from 1500 /to 1800
+event event: lebot.tasks.Task 4 /from 1700 /to 1800
 event Fail /to 1800
 event Fail /from 1800
 event

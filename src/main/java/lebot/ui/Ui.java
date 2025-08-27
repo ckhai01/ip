@@ -1,3 +1,8 @@
+package lebot.ui;
+
+import lebot.tasks.TaskList;
+import lebot.tasks.Task;
+
 public class Ui {
 
     public static void displayIntro() {
@@ -25,7 +30,7 @@ public class Ui {
                 ⠀⠀⠀⠀⣀⣴⣾⣿⣿⠟⢻⠀⣷⢸⠀⠀⠀⠀⠀⠀⠈⠓⢮⣙⠳⠦⣌⣙⣛⣳⣞⣛⣋⡥⠶⠋⠥⠛⠀⢠⣤⣭⣟⡟⣀⣀⡀⢸⡄⢿⠀⠀⠀⠈⢹⣿⡀⠬⣿⣄⠀
                 ⢀⣠⣶⣿⣿⣿⡉⠉⠀⠀⢸⠀⣿⠸⠀⠀⠀⠀⠀⠀⢀⡤⠄⠈⠙⢒⢦⢀⢈⣉⡉⡁⠀⢀⠀⠀⠀⠀⠀⠈⠛⠛⠛⠻⠿⡛⠛⠈⡇⢸⠀⠀⠀⠀⢸⡟⠳⢆⢈⣿⣄""";
         System.out.println(lebron);
-        System.out.println("Yo, what’s good! It's LeBot James in the building! What can I help you with today? Let's get it!");
+        System.out.println("Yo, what’s good! It's lebot.LeBot James in the building! What can I help you with today? Let's get it!");
     }
 
     public static void showList(TaskList tasks) {
@@ -75,7 +80,7 @@ public class Ui {
     }
 
     public static void showEmptyTodo() {
-        System.out.println("ToDo cannot be empty. Gotta put the ball in play.");
+        System.out.println("lebot.tasks.ToDo cannot be empty. Gotta put the ball in play.");
     }
 
     public static void showMissingDeadline() {

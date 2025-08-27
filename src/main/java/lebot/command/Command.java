@@ -1,3 +1,5 @@
+package lebot.command;
+
 public class Command {
     protected String action;
     protected String desc;

@@ -1,3 +1,11 @@
+package lebot.storage;
+
+import lebot.ui.Ui;
+import lebot.tasks.Task;
+import lebot.tasks.ToDo;
+import lebot.tasks.Deadline;
+import lebot.tasks.Event;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class Storage {
     public static void saveList(ArrayList<Task> list) {
-        Path path = Path.of("data/LeBot.txt");
+        Path path = Path.of("data/lebot.LeBot.txt");
         try {
             if (path.getParent() != null) {
                 Files.createDirectories(path.getParent());
@@ -31,7 +39,7 @@ public class Storage {
     }
 
     public static ArrayList<Task> loadList() {
-        Path path = Path.of("data/LeBot.txt");
+        Path path = Path.of("data/lebot.LeBot.txt");
         ArrayList<Task> list = new ArrayList<>();
         try {
             Scanner s = new Scanner(new File(path.toString()));

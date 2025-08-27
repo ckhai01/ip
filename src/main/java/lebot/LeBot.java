@@ -1,4 +1,11 @@
+package lebot;
+
+import lebot.ui.Ui;
+import lebot.command.Command;
+import lebot.tasks.TaskList;
+
 import java.util.Scanner;
+
 
 public class LeBot {
 
