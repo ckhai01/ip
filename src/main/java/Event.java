@@ -1,18 +1,24 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
 public class Event extends Task {
-    protected String to;
-    protected String from;
+    protected LocalDate to;
+    protected LocalDate from;
 
     Event(String desc, String to, String from) {
         super(desc);
-        this.to = to;
-        this.from = from;
+        this.to = LocalDate.parse(to, DateTimeFormatter.ofPattern("dd/MM/yyyy"));;
+        this.from = LocalDate.parse(from, DateTimeFormatter.ofPattern("dd/MM/yyyy"));;
     }
 
     public String toString() {
-        return "[E]" + super.toString() + "(from: " +  this.from + " to: " +  this.to + ")";
+        return "[E]" + super.toString() + "(from: " +  this.from.format(DateTimeFormatter.ofPattern("MMM d yyyy")) +
+                " to: " +  this.to.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + ")";
     }
 
     public String formattedString() {
-        return "E" + super.formattedString() + "|" + this.to + "|" + this.from;
+        return "E" + super.formattedString() + "|" + this.to.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "|"
+                + this.from.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }
