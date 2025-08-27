@@ -3,7 +3,6 @@ public class Command {
     protected String desc;
 
 
-
     public Command(String input) {
         String[] splitted = input.split("\\s+");
         String description;
