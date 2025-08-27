@@ -1,11 +1,16 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TaskList {
     protected ArrayList<Task> list;
 
-    public TaskList(ArrayList<Task> list) {
-        this.list = list;
-    }
+    private static final Pattern DEADLINE_BY = Pattern.compile("/by (\\S+)");
+    private static final Pattern EVENT_TO = Pattern.compile("/to (\\S+)");
+    private static final Pattern EVENT_FROM = Pattern.compile("/from (\\S+)");
 
     public TaskList() {
         this.list = Storage.loadList();
@@ -17,6 +22,11 @@ public class TaskList {
 
     public int size() {
         return list.size();
+    }
+
+    private static String findGroup(Pattern pattern, String text) {
+        Matcher matcher = pattern.matcher(text);
+        return matcher.find() ? matcher.group(1) : null;
     }
 
     public void printList() {
@@ -58,6 +68,9 @@ public class TaskList {
     public void add(Task task) {
         this.list.add(task);
         Storage.saveList(this.list);
+        System.out.println("Got it. Next task on the list: ");
+        System.out.println(task);
+        System.out.println(list.size() + " tasks on the board. Lock in.");
     }
 
     public void delete(String desc) {
@@ -74,6 +87,59 @@ public class TaskList {
             System.out.println("Out of bounds?? Gotta stay within the limits, stay disciplined. Fundamentals matter.");
         }
     }
+
+    public void createTodo(String desc) {
+        if (desc.isEmpty()) {
+            System.out.println("ToDo cannot be empty. Gotta put the ball in play.");
+            return;
+        }
+        ToDo todo = new ToDo(desc);
+        this.add(todo);
+    }
+
+    public void createDeadline(String desc) {
+        String match = findGroup(DEADLINE_BY, desc);
+        try {
+            if (match != null) {
+                LocalDate.parse(match, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                Deadline deadline = new Deadline(desc.replace("/by " + match, ""), match);
+                this.add(deadline);
+            }
+            else {
+                System.out.println("No deadline set, can't achieve greatness like that.");
+            }
+
+        }
+        catch (DateTimeParseException e) {
+            System.out.println("Shoot me the date like this, champ: dd/MM/yyyy.");
+
+        }
+
+    }
+
+    public void createEvent(String desc) {
+        String to = findGroup(EVENT_TO, desc);
+        String from = findGroup(EVENT_FROM, desc);
+
+        try {
+            if (to != null && from != null) {
+                LocalDate.parse(to, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                LocalDate.parse(from, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                String newDesc = desc.replace("/to " + to, "").replace("/from " + from, "");
+                Event event = new Event(newDesc, to, from);
+                this.add(event);
+            } else {
+                System.out.println("Gotta specify a time window. Eyes on the prize.");
+            }
+        }
+        catch (DateTimeParseException e) {
+            System.out.println("Shoot me the date like this, champ: dd/MM/yyyy.");
+        }
+
+
+    }
+
+
 
 
 
