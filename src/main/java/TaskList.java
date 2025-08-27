@@ -24,32 +24,28 @@ public class TaskList {
         return list.size();
     }
 
+    public boolean isEmpty() {
+        return list.isEmpty();
+    }
+
+    public Task get(int index) {
+        return list.get(index);
+    }
+
     private static String findGroup(Pattern pattern, String text) {
         Matcher matcher = pattern.matcher(text);
         return matcher.find() ? matcher.group(1) : null;
-    }
-
-    public void printList() {
-        if (this.list.isEmpty()) {
-            System.out.println("Haven’t added anything yet? Can’t win a game if you don’t put the ball" +
-                    " in play. Gotta set the goals before you chase them.");
-            return;
-        }
-        System.out.println("Here’s the list. No excuses, no shortcuts. One by one, we knock these down.");
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(i + 1 + "." + list.get(i));
-        }
     }
 
     public void markTask(String desc) {
         try {
             int number = parseIndex(desc);
             this.list.get(number).markAsDone();
-            System.out.println("Checked it off the list. Another step closer to greatness: " + list.get(number));
+            Ui.showMark(this.list.get(number));
         } catch (NumberFormatException e) {
-            System.out.println("Enter a real number... locked in, focused. No shortcuts, just the truth.");
+            Ui.showNumberError();
         } catch (IndexOutOfBoundsException | NullPointerException e) {
-            System.out.println("Out of bounds?? Gotta stay within the limits, stay disciplined. Fundamentals matter.");
+            Ui.showBoundsError();
         }
     }
 
@@ -57,40 +53,38 @@ public class TaskList {
         try {
             int number = parseIndex(desc);
             this.list.get(number).unmarkAsDone();
-            System.out.println("Alright, not done yet. Back in the lab, time to finish the job: " + list.get(number));
+            Ui.showUnmark(this.list.get(number));
         } catch (NumberFormatException e) {
-            System.out.println("Enter a real number... locked in, focused. No shortcuts, just the truth.");
+            Ui.showNumberError();
         } catch (IndexOutOfBoundsException | NullPointerException e) {
-            System.out.println("Out of bounds?? Gotta stay within the limits, stay disciplined. Fundamentals matter.");
+            Ui.showBoundsError();
         }
     }
 
     public void add(Task task) {
         this.list.add(task);
         Storage.saveList(this.list);
-        System.out.println("Got it. Next task on the list: ");
-        System.out.println(task);
-        System.out.println(list.size() + " tasks on the board. Lock in.");
+        Ui.showAdd(task, this.size());
     }
 
     public void delete(String desc) {
         try {
             int number = parseIndex(desc);
             Task tempTask = this.list.get(number);
-            System.out.println("Scratched it off the list. Recenter yourself: " + tempTask);
             this.list.remove(number);
             Storage.saveList(list);
-            System.out.println("Now you have " + size() + " tasks on the board.");
+            Ui.showDelete(tempTask, this.size());
+
         } catch (NumberFormatException e) {
-            System.out.println("Enter a real number... locked in, focused. No shortcuts, just the truth.");
+            Ui.showNumberError();
         } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-            System.out.println("Out of bounds?? Gotta stay within the limits, stay disciplined. Fundamentals matter.");
+            Ui.showBoundsError();
         }
     }
 
     public void createTodo(String desc) {
         if (desc.isEmpty()) {
-            System.out.println("ToDo cannot be empty. Gotta put the ball in play.");
+            Ui.showEmptyTodo();
             return;
         }
         ToDo todo = new ToDo(desc);
@@ -106,13 +100,11 @@ public class TaskList {
                 this.add(deadline);
             }
             else {
-                System.out.println("No deadline set, can't achieve greatness like that.");
+                Ui.showMissingDeadline();
             }
-
         }
         catch (DateTimeParseException e) {
-            System.out.println("Shoot me the date like this, champ: dd/MM/yyyy.");
-
+            Ui.showInvalidDate();
         }
 
     }
@@ -129,11 +121,11 @@ public class TaskList {
                 Event event = new Event(newDesc, to, from);
                 this.add(event);
             } else {
-                System.out.println("Gotta specify a time window. Eyes on the prize.");
+                Ui.showMissingEventTimes();
             }
         }
         catch (DateTimeParseException e) {
-            System.out.println("Shoot me the date like this, champ: dd/MM/yyyy.");
+            Ui.showInvalidDate();
         }
 
 

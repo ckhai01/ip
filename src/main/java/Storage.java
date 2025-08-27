@@ -26,7 +26,7 @@ public class Storage {
                     StandardOpenOption.TRUNCATE_EXISTING
             );
         } catch (IOException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
+            Ui.showIoError(e.getMessage());
         }
     }
 
