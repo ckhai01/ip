@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,6 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.stream.Collectors;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class LeBot {
     private static final Pattern DEADLINE_BY = Pattern.compile("/by (\\S+)");
@@ -139,24 +142,44 @@ public class LeBot {
 
     private static void createDeadline(ArrayList<Task> list, String desc) {
         String match = findGroup(DEADLINE_BY, desc);
-        if (match != null) {
-            Deadline deadline = new Deadline(desc.replace("/by " + match, ""), match);
-            addTask(list, deadline);
-        } else {
-            System.out.println("No deadline set, can't achieve greatness like that.");
+        try {
+            if (match != null) {
+                LocalDate.parse(match, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                Deadline deadline = new Deadline(desc.replace("/by " + match, ""), match);
+                addTask(list, deadline);
+            }
+            else {
+                System.out.println("No deadline set, can't achieve greatness like that.");
+            }
+
         }
+        catch (DateTimeParseException e) {
+            System.out.println("Shoot me the date like this, champ: dd/MM/yyyy.");
+
+        }
+
     }
 
     private static void createEvent(ArrayList<Task> list, String desc) {
         String to = findGroup(EVENT_TO, desc);
         String from = findGroup(EVENT_FROM, desc);
-        if (to != null && from != null) {
-            String newDesc = desc.replace("/to " + to, "").replace("/from " + from, "");
-            Event event = new Event(newDesc, to, from);
-            addTask(list, event);
-        } else {
-            System.out.println("Gotta specify a time window. Eyes on the prize.");
+
+        try {
+            if (to != null && from != null) {
+                LocalDate.parse(to, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                LocalDate.parse(from, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                String newDesc = desc.replace("/to " + to, "").replace("/from " + from, "");
+                Event event = new Event(newDesc, to, from);
+                addTask(list, event);
+            } else {
+                System.out.println("Gotta specify a time window. Eyes on the prize.");
+            }
         }
+        catch (DateTimeParseException e) {
+            System.out.println("Shoot me the date like this, champ: dd/MM/yyyy.");
+        }
+
+
     }
 
     private static void deleteTask(ArrayList<Task> list, String desc) {
@@ -192,7 +215,7 @@ public class LeBot {
     }
 
     private static void saveList(ArrayList<Task> list) {
-        Path path = Path.of("../../data/LeBot.txt");
+        Path path = Path.of("data/LeBot.txt");
         try {
             if (path.getParent() != null) {
                 Files.createDirectories(path.getParent());
@@ -208,14 +231,14 @@ public class LeBot {
                     StandardOpenOption.TRUNCATE_EXISTING
             );
         } catch (IOException e) {
-            return;
+            System.out.println("Error writing to file: " + e.getMessage());
         }
     }
 
     private static ArrayList<Task> loadList() {
         ArrayList<Task> list = new ArrayList<>();
         try {
-            Scanner s = new Scanner(new File("../../data/LeBot.txt"));
+            Scanner s = new Scanner(new File("data/LeBot.txt"));
             Task task;
             while (s.hasNextLine()) {
                 String[] tempList = s.nextLine().split("\\|");
@@ -237,7 +260,7 @@ public class LeBot {
             return list;
         }
         catch (FileNotFoundException e) {
-            return new ArrayList<Task>();
+            return new ArrayList<>();
         }
     }
 }

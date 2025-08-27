@@ -1,16 +1,21 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
+
 public class Deadline extends Task {
-    protected String due;
+    protected LocalDate due;
 
     Deadline(String desc, String due) {
         super(desc);
-        this.due = due;
+        this.due = LocalDate.parse(due, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public String toString() {
-        return "[D]" + super.toString() + "(by: " +  this.due + ")";
+        return "[D]" + super.toString() + "(by: " +  this.due.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
     }
 
     public String formattedString() {
-        return "D" + super.formattedString() + "|" + this.due;
+        return "D" + super.formattedString() + "|" + this.due.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }
