@@ -3,6 +3,12 @@ package lebot.ui;
 import lebot.tasks.TaskList;
 import lebot.tasks.Task;
 
+/**
+ * Simple class to handle command line output.
+ * <p>
+ *     Prints out pre-configured strings. Each individual method is trivial.
+ */
+
 public class Ui {
 
     public static void displayIntro() {
@@ -29,7 +35,7 @@ public class Ui {
                 ⠀⠀⠀⠀⠀⠀⠀⣀⣴⣾⣿⠘⡇⢹⠀⠀⠀⠀⠙⢦⡙⢦⣍⡻⠶⣤⣀⣀⠀⠀⠀⣀⣴⣾⡿⢛⣥⠞⡡⠀⠰⣿⡿⣿⡆⠀⠀⢸⠈⣯⠲⣏⠉⢻⣾⣿⡿⣦⡀⠀⠀
                 ⠀⠀⠀⠀⣀⣴⣾⣿⣿⠟⢻⠀⣷⢸⠀⠀⠀⠀⠀⠀⠈⠓⢮⣙⠳⠦⣌⣙⣛⣳⣞⣛⣋⡥⠶⠋⠥⠛⠀⢠⣤⣭⣟⡟⣀⣀⡀⢸⡄⢿⠀⠀⠀⠈⢹⣿⡀⠬⣿⣄⠀
                 ⢀⣠⣶⣿⣿⣿⡉⠉⠀⠀⢸⠀⣿⠸⠀⠀⠀⠀⠀⠀⢀⡤⠄⠈⠙⢒⢦⢀⢈⣉⡉⡁⠀⢀⠀⠀⠀⠀⠀⠈⠛⠛⠛⠻⠿⡛⠛⠈⡇⢸⠀⠀⠀⠀⢸⡟⠳⢆⢈⣿⣄""";
-        System.out.println(lebron);
+        //System.out.println(lebron);
         System.out.println("Yo, what’s good! It's LeBot James in the building! What can I help you with today? Let's get it!");
     }
 
