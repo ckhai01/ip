@@ -44,6 +44,17 @@ public class Ui {
         }
     }
 
+    public static void showFind(TaskList tasks) {
+        if (tasks.isEmpty()) {
+            System.out.println("Scouting report: no matching tasks on your list. Reset, refocus, run it back.");
+            return;
+        }
+        System.out.println("Game plan update: here are the matching tasks in your list.");
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println((i + 1) + "." + tasks.get(i));
+        }
+    }
+
     public static void showAdd(Task task, int size) {
         System.out.println("Got it. Next task on the list: ");
         System.out.println(task);

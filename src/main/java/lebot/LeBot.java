@@ -53,6 +53,9 @@ public class LeBot {
             case "delete":
                 list.delete(parsedInput.getDesc());
                 return true;
+            case "find":
+                list.findTasks(parsedInput.getDesc());
+                return true;
             default:
                 Ui.showInvalidInput();
                 return true;

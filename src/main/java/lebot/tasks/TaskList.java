@@ -140,6 +140,17 @@ public class TaskList {
 
     }
 
+    public void findTasks(String desc) {
+        ArrayList<Task> output = new ArrayList<>();
+        for (Task task : this.list) {
+            if (task.description.contains(desc)) {
+                output.add(task);
+            }
+        }
+        Ui.showFind(new TaskList(output));
+
+    }
+
 
 
 
