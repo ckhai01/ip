@@ -5,7 +5,6 @@ import lebot.tasks.Task;
 import lebot.tasks.ToDo;
 import lebot.tasks.Deadline;
 import lebot.tasks.Event;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,7 +15,31 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+/**
+ * File-based persistence for {@link Task} objects.
+ * <p>
+ * Stores tasks in {@code data/lebot.LeBot.txt} as one line per task using a
+ * pipe-delimited format compatible with {@link Task#formattedString()}:
+ * <ul>
+ *   <li>{@code T|<0-or-1>|<description>}</li>
+ *   <li>{@code D|<0-or-1>|<description>|<due dd/MM/yyyy>}</li>
+ *   <li>{@code E|<0-or-1>|<description>|<to dd/MM/yyyy>|<from dd/MM/yyyy>}</li>
+ * </ul>
+ * A value of {@code 1} means done; {@code 0} means not done.
+ * <p>
+ * On save, parent directories are created if needed and the file is truncated.
+ * On load, a missing file results in an empty list. I/O errors are reported via {@link Ui}.
+ */
 public class Storage {
+
+    /**
+     * Persists the given list of tasks to disk at {@code data/lebot.LeBot.txt}.
+     * <p>
+     * The file is created if it does not exist and truncated if it does.
+     * Any {@link IOException} is caught and reported via {@link Ui#showIoError(String)}.
+     *
+     * @param list the tasks to save
+     */
     public static void saveList(ArrayList<Task> list) {
         Path path = Path.of("data/lebot.LeBot.txt");
         try {
@@ -38,6 +61,15 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads tasks from {@code data/lebot.LeBot.txt}.
+     * <p>
+     * Each line is parsed into a {@link ToDo}, {@link Deadline}, or {@link Event}
+     * based on the leading type code ({@code T}, {@code D}, {@code E}). If the
+     * file is not found, an empty list is returned.
+     *
+     * @return a list of tasks reconstructed from disk; never {@code null}
+     */
     public static ArrayList<Task> loadList() {
         Path path = Path.of("data/lebot.LeBot.txt");
         ArrayList<Task> list = new ArrayList<>();
