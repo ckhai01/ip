@@ -21,6 +21,8 @@ public class TaskList {
         this.list = Storage.loadList();
     }
 
+    public TaskList(ArrayList<Task> list) {this.list = list;}
+
     private static int parseIndex(String desc) {
         return Integer.parseInt(desc) - 1;
     }
@@ -84,7 +86,7 @@ public class TaskList {
 
         } catch (NumberFormatException e) {
             Ui.showNumberError();
-        } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
             Ui.showBoundsError();
         }
     }
