@@ -25,8 +25,7 @@ public class Task {
         return getStatusIcon() + " " + description;
     }
 
-    public String formattedString()
-    {
+    public String formattedString() {
         String done = isDone ? "1" : "0";
         return "|" + done + "|" + description;
     }

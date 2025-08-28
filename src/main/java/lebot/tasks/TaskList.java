@@ -1,8 +1,5 @@
 package lebot.tasks;
 
-import lebot.storage.Storage;
-import lebot.ui.Ui;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -10,21 +7,30 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TaskList {
-    protected ArrayList<Task> list;
+import lebot.storage.Storage;
+import lebot.ui.Ui;
 
+public class TaskList {
     private static final Pattern DEADLINE_BY = Pattern.compile("/by (\\S+)");
     private static final Pattern EVENT_TO = Pattern.compile("/to (\\S+)");
     private static final Pattern EVENT_FROM = Pattern.compile("/from (\\S+)");
+    protected ArrayList<Task> list;
 
     public TaskList() {
         this.list = Storage.loadList();
     }
 
-    public TaskList(ArrayList<Task> list) {this.list = list;}
+    public TaskList(ArrayList<Task> list) {
+        this.list = list;
+    }
 
     private static int parseIndex(String desc) {
         return Integer.parseInt(desc) - 1;
+    }
+
+    private static String findGroup(Pattern pattern, String text) {
+        Matcher matcher = pattern.matcher(text);
+        return matcher.find() ? matcher.group(1) : null;
     }
 
     public int size() {
@@ -37,11 +43,6 @@ public class TaskList {
 
     public Task get(int index) {
         return list.get(index);
-    }
-
-    private static String findGroup(Pattern pattern, String text) {
-        Matcher matcher = pattern.matcher(text);
-        return matcher.find() ? matcher.group(1) : null;
     }
 
     public void markTask(String desc) {
@@ -107,12 +108,10 @@ public class TaskList {
                 LocalDate.parse(match, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                 Deadline deadline = new Deadline(desc.replace("/by " + match, ""), match);
                 this.add(deadline);
-            }
-            else {
+            } else {
                 Ui.showMissingDeadline();
             }
-        }
-        catch (DateTimeParseException e) {
+        } catch (DateTimeParseException e) {
             Ui.showInvalidDate();
         }
 
@@ -132,16 +131,12 @@ public class TaskList {
             } else {
                 Ui.showMissingEventTimes();
             }
-        }
-        catch (DateTimeParseException e) {
+        } catch (DateTimeParseException e) {
             Ui.showInvalidDate();
         }
 
 
     }
-
-
-
 
 
 }

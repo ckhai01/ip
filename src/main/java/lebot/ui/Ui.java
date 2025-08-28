@@ -1,7 +1,7 @@
 package lebot.ui;
 
-import lebot.tasks.TaskList;
 import lebot.tasks.Task;
+import lebot.tasks.TaskList;
 
 public class Ui {
 

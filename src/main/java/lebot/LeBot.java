@@ -1,10 +1,10 @@
 package lebot;
 
-import lebot.ui.Ui;
+import java.util.Scanner;
+
 import lebot.command.Command;
 import lebot.tasks.TaskList;
-
-import java.util.Scanner;
+import lebot.ui.Ui;
 
 
 public class LeBot {
@@ -29,33 +29,33 @@ public class LeBot {
 
     private static boolean dispatchAction(Command parsedInput, TaskList list) {
         switch (parsedInput.getAction()) {
-            case "list":
-                Ui.showList(list);
-                return true;
-            case "mark":
-                list.markTask(parsedInput.getDesc());
-                return true;
-            case "unmark":
-                list.unmarkTask(parsedInput.getDesc());
-                return true;
-            case "bye":
-                Ui.showBye();
-                return false;
-            case "todo":
-                list.createTodo(parsedInput.getDesc());
-                return true;
-            case "deadline":
-                list.createDeadline(parsedInput.getDesc());
-                return true;
-            case "event":
-                list.createEvent(parsedInput.getDesc());
-                return true;
-            case "delete":
-                list.delete(parsedInput.getDesc());
-                return true;
-            default:
-                Ui.showInvalidInput();
-                return true;
+        case "list":
+            Ui.showList(list);
+            return true;
+        case "mark":
+            list.markTask(parsedInput.getDesc());
+            return true;
+        case "unmark":
+            list.unmarkTask(parsedInput.getDesc());
+            return true;
+        case "bye":
+            Ui.showBye();
+            return false;
+        case "todo":
+            list.createTodo(parsedInput.getDesc());
+            return true;
+        case "deadline":
+            list.createDeadline(parsedInput.getDesc());
+            return true;
+        case "event":
+            list.createEvent(parsedInput.getDesc());
+            return true;
+        case "delete":
+            list.delete(parsedInput.getDesc());
+            return true;
+        default:
+            Ui.showInvalidInput();
+            return true;
         }
     }
 
