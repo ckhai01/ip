@@ -68,8 +68,8 @@ public class Task {
      *
      * @return a string in the form {@code |<0-or-1>|<description>}
      */
-    public String formattedString()
-    {
+
+    public String formattedString() {
         String done = isDone ? "1" : "0";
         return "|" + done + "|" + description;
     }

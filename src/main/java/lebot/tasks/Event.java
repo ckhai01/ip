@@ -39,8 +39,8 @@ public class Event extends Task {
      * @return a string like {@code "[E][ ] Basketball Bootcamp (from: Jan 1 2025 to: Jan 3 2025)"}
      */
     public String toString() {
-        return "[E]" + super.toString() + "(from: " +  this.from.format(DateTimeFormatter.ofPattern("MMM d yyyy")) +
-                " to: " +  this.to.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
+        return "[E]" + super.toString() + "(from: " + this.from.format(DateTimeFormatter.ofPattern("MMM d yyyy")) +
+                " to: " + this.to.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
     }
 
     /**

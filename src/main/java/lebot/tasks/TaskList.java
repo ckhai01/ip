@@ -1,13 +1,14 @@
 package lebot.tasks;
 
-import lebot.storage.Storage;
-import lebot.ui.Ui;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import lebot.storage.Storage;
+import lebot.ui.Ui;
 
 /**
  * Mutable list of {@link Task} objects with helpers for creating,
@@ -17,14 +18,12 @@ import java.util.regex.Pattern;
  * Supports {@link ToDo}, {@link Deadline}, and {@link Event}.
  */
 public class TaskList {
-    protected ArrayList<Task> list;
-
-    /** Extracts {@code /by <dd/MM/yyyy>} from a deadline description. */
     private static final Pattern DEADLINE_BY = Pattern.compile("/by (\\S+)");
     /** Extracts {@code /to <dd/MM/yyyy>} from an event description. */
     private static final Pattern EVENT_TO = Pattern.compile("/to (\\S+)");
     /** Extracts {@code /from <dd/MM/yyyy>} from an event description. */
     private static final Pattern EVENT_FROM = Pattern.compile("/from (\\S+)");
+    protected ArrayList<Task> list;
 
     /**
      * Loads the task list from persistent storage (default: data/LeBot.txt).
@@ -38,7 +37,9 @@ public class TaskList {
      *
      * @param list the underlying list of tasks
      */
-    public TaskList(ArrayList<Task> list) {this.list = list;}
+    public TaskList(ArrayList<Task> list) {
+        this.list = list;
+    }
 
     /**
      * Converts a 1-based index string (e.g., from user input) to a 0-based index.
@@ -49,6 +50,19 @@ public class TaskList {
      */
     private static int parseIndex(String desc) {
         return Integer.parseInt(desc) - 1;
+    }
+
+    /**
+     * Finds the first regex group match in the given text.
+     *
+     * @param pattern the compiled pattern
+     * @param text    the text to search
+     * @return the first captured group if found; {@code null} otherwise
+     */
+
+    private static String findGroup(Pattern pattern, String text) {
+        Matcher matcher = pattern.matcher(text);
+        return matcher.find() ? matcher.group(1) : null;
     }
 
     /**
@@ -80,17 +94,6 @@ public class TaskList {
         return list.get(index);
     }
 
-    /**
-     * Finds the first regex group match in the given text.
-     *
-     * @param pattern the compiled pattern
-     * @param text    the text to search
-     * @return the first captured group if found; {@code null} otherwise
-     */
-    private static String findGroup(Pattern pattern, String text) {
-        Matcher matcher = pattern.matcher(text);
-        return matcher.find() ? matcher.group(1) : null;
-    }
 
     /**
      * Marks the task at the 1-based index given by {@code desc} as done.
@@ -199,12 +202,10 @@ public class TaskList {
                 LocalDate.parse(match, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                 Deadline deadline = new Deadline(desc.replace("/by " + match, ""), match);
                 this.add(deadline);
-            }
-            else {
+            } else {
                 Ui.showMissingDeadline();
             }
-        }
-        catch (DateTimeParseException e) {
+        } catch (DateTimeParseException e) {
             Ui.showInvalidDate();
         }
 
@@ -233,8 +234,7 @@ public class TaskList {
             } else {
                 Ui.showMissingEventTimes();
             }
-        }
-        catch (DateTimeParseException e) {
+        } catch (DateTimeParseException e) {
             Ui.showInvalidDate();
         }
 
@@ -251,9 +251,6 @@ public class TaskList {
         Ui.showFind(new TaskList(output));
 
     }
-
-
-
 
 
 }

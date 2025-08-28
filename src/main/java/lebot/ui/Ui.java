@@ -1,7 +1,7 @@
 package lebot.ui;
 
-import lebot.tasks.TaskList;
 import lebot.tasks.Task;
+import lebot.tasks.TaskList;
 
 /**
  * Simple class to handle command line output.
