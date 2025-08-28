@@ -241,6 +241,11 @@ public class TaskList {
 
     }
 
+    /**
+     * Finds the tasks containing a given keyword and displays them.
+     *
+     * @param desc the keyword to find
+     */
     public void findTasks(String desc) {
         ArrayList<Task> output = new ArrayList<>();
         for (Task task : this.list) {

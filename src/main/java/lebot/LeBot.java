@@ -54,6 +54,7 @@ public class LeBot {
      *   <li>{@code mark} / {@code unmark} — toggle completion on a task</li>
      *   <li>{@code todo}, {@code deadline}, {@code event} — add a task</li>
      *   <li>{@code delete} — remove a task</li>
+     *   <li>{@code find} — finds tasks containing keyword(s)</li>
      *   <li>{@code bye} — exit the program</li>
      * </ul>
      * Any unknown action results in an "invalid input" message.
@@ -88,39 +89,12 @@ public class LeBot {
         case "delete":
             list.delete(parsedInput.getDesc());
             return true;
+        case "find":
+            list.findTasks(parsedInput.getDesc());
+            return true;
         default:
             Ui.showInvalidInput();
             return true;
-            case "list":
-                Ui.showList(list);
-                return true;
-            case "mark":
-                list.markTask(parsedInput.getDesc());
-                return true;
-            case "unmark":
-                list.unmarkTask(parsedInput.getDesc());
-                return true;
-            case "bye":
-                Ui.showBye();
-                return false;
-            case "todo":
-                list.createTodo(parsedInput.getDesc());
-                return true;
-            case "deadline":
-                list.createDeadline(parsedInput.getDesc());
-                return true;
-            case "event":
-                list.createEvent(parsedInput.getDesc());
-                return true;
-            case "delete":
-                list.delete(parsedInput.getDesc());
-                return true;
-            case "find":
-                list.findTasks(parsedInput.getDesc());
-                return true;
-            default:
-                Ui.showInvalidInput();
-                return true;
         }
     }
 
