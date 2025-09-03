@@ -36,7 +36,7 @@ public class LeBotCli {
     private static void mainLoop(TaskList list) {
         Scanner inputScanner = new Scanner(System.in);
         boolean repeat = true;
-        System.out.println(Ui.displayIntro());
+        System.out.println(Ui.showIntro());
         while (repeat) {
             System.out.print("Enter: ");
             String input = inputScanner.nextLine();

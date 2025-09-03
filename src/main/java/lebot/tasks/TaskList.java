@@ -70,7 +70,7 @@ public class TaskList {
      *
      * @return task count
      */
-    public int size() {
+    public int getSize() {
         return list.size();
     }
 
@@ -148,7 +148,7 @@ public class TaskList {
     public String add(Task task) {
         this.list.add(task);
         Storage.saveList(this.list);
-        return Ui.showAdd(task, this.size());
+        return Ui.showAdd(task, this.getSize());
     }
 
     /**
@@ -166,7 +166,7 @@ public class TaskList {
             Task tempTask = this.list.get(number);
             this.list.remove(number);
             Storage.saveList(list);
-            return Ui.showDelete(tempTask, this.size());
+            return Ui.showDelete(tempTask, this.getSize());
 
         } catch (NumberFormatException e) {
             return Ui.showNumberError();

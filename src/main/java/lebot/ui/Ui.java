@@ -11,7 +11,7 @@ import lebot.tasks.TaskList;
 
 public class Ui {
 
-    public static String displayIntro() {
+    public static String showIntro() {
         return "Yo, what’s good! It's LeBot James in the building! What can I help you with today? Let's get it!";
     }
 
@@ -21,7 +21,7 @@ public class Ui {
         }
         StringBuilder sb = new StringBuilder();
         sb.append("Here’s the list. No excuses, no shortcuts. One by one, we knock these down.");
-        for (int i = 0; i < tasks.size(); i++) {
+        for (int i = 0; i < tasks.getSize(); i++) {
             sb.append("\n").append(i + 1).append(".").append(tasks.get(i));
         }
         return sb.toString();
@@ -33,7 +33,7 @@ public class Ui {
         }
         StringBuilder sb = new StringBuilder();
         sb.append("Game plan update: here are the matching tasks in your list.");
-        for (int i = 0; i < tasks.size(); i++) {
+        for (int i = 0; i < tasks.getSize(); i++) {
             sb.append("\n").append(i + 1).append(".").append(tasks.get(i));
         }
         return sb.toString();

@@ -45,7 +45,7 @@ public class Deadline extends Task {
      *
      * @return the serialized representation of this deadline
      */
-    public String formattedString() {
-        return "D" + super.formattedString() + "|" + this.due.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    public String formatString() {
+        return "D" + super.formatString() + "|" + this.due.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }

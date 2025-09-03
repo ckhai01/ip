@@ -50,8 +50,8 @@ public class Event extends Task {
      *
      * @return the serialized representation of this event
      */
-    public String formattedString() {
-        return "E" + super.formattedString() + "|" + this.to.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "|"
+    public String formatString() {
+        return "E" + super.formatString() + "|" + this.to.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "|"
                 + this.from.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }
