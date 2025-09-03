@@ -12,7 +12,7 @@ import lebot.ui.Ui;
  * Shows an intro, creates a {@link TaskList}, and then reads user
  * input in a loop, dispatching commands until the user exits with {@code bye}.
  */
-public class LeBot {
+public class LeBotCli {
 
     /**
      * Starts LeBot.
@@ -20,7 +20,6 @@ public class LeBot {
      * @param args command-line arguments (unused)
      */
     public static void main(String[] args) {
-        Ui.displayIntro();
         TaskList list = new TaskList();
         mainLoop(list);
     }
@@ -37,6 +36,7 @@ public class LeBot {
     private static void mainLoop(TaskList list) {
         Scanner inputScanner = new Scanner(System.in);
         boolean repeat = true;
+        System.out.println(Ui.displayIntro());
         while (repeat) {
             System.out.print("Enter: ");
             String input = inputScanner.nextLine();
@@ -66,34 +66,34 @@ public class LeBot {
     private static boolean dispatchAction(Command parsedInput, TaskList list) {
         switch (parsedInput.getAction()) {
         case "list":
-            Ui.showList(list);
+            System.out.println(Ui.showList(list));
             return true;
         case "mark":
-            list.markTask(parsedInput.getDesc());
+            System.out.println(list.markTask(parsedInput.getDesc()));
             return true;
         case "unmark":
-            list.unmarkTask(parsedInput.getDesc());
+            System.out.println(list.unmarkTask(parsedInput.getDesc()));
             return true;
         case "bye":
-            Ui.showBye();
+            System.out.println(Ui.showBye());
             return false;
         case "todo":
-            list.createTodo(parsedInput.getDesc());
+            System.out.println(list.createTodo(parsedInput.getDesc()));
             return true;
         case "deadline":
-            list.createDeadline(parsedInput.getDesc());
+            System.out.println(list.createDeadline(parsedInput.getDesc()));
             return true;
         case "event":
-            list.createEvent(parsedInput.getDesc());
+            System.out.println(list.createEvent(parsedInput.getDesc()));
             return true;
         case "delete":
-            list.delete(parsedInput.getDesc());
+            System.out.println(list.delete(parsedInput.getDesc()));
             return true;
         case "find":
-            list.findTasks(parsedInput.getDesc());
+            System.out.println(list.findTasks(parsedInput.getDesc()));
             return true;
         default:
-            Ui.showInvalidInput();
+            System.out.println(Ui.showInvalidInput());
             return true;
         }
     }

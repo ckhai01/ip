@@ -1,6 +1,6 @@
 package lebot.ui;
 
-import lebot.LeBot;
+import lebot.LeBotCli;
 
 import java.io.IOException;
 
@@ -9,13 +9,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lebot.LeBotGui;
 
 /**
  * A GUI for Duke using FXML.
  */
 public class Main extends Application {
 
-    private LeBot leBot = new LeBot();
+    private LeBotGui leBot = new LeBotGui();
 
     @Override
     public void start(Stage stage) {
@@ -24,7 +25,7 @@ public class Main extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
-            fxmlLoader.<MainWindow>getController().setDuke(leBot);  // inject the Duke instance
+            fxmlLoader.<MainWindow>getController().setLebot(leBot);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

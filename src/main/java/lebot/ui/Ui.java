@@ -6,113 +6,89 @@ import lebot.tasks.TaskList;
 /**
  * Simple class to handle command line output.
  * <p>
- *     Prints out pre-configured strings. Each individual method is trivial.
+ *     Returns pre-configured strings. Each individual method is trivial.
  */
 
 public class Ui {
 
-    public static void displayIntro() {
-        String lebron = """
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣶⣾⣿⣿⣿⣶⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⠛⠛⠉⠉⠉⠉⠛⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⡿⠟⠀⠀⠀⠀⠀⠀⠀⠺⠶⣾⣿⣿⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⡿⣇⠀⢀⡀⠀⠀⠀⠀⢀⣀⣀⣌⣿⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⢣⣿⠆⢀⡀⠀⠀⠀⠀⠈⠉⢉⡺⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣿⣿⣾⡿⣻⣿⣿⡷⠇⠀⠀⣴⣿⣿⣿⣿⢿⣿⣿⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣟⣿⣿⡏⣾⣿⣿⣯⣿⣶⠾⠻⣿⣿⣽⣿⣿⣿⣿⣿⢿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣻⣿⣿⢁⣙⡋⠉⠉⣿⡇⠀⠀⣺⣿⡯⠻⠛⠛⣿⣿⢉⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⡽⡏⠁⠀⣴⢿⣏⣥⣄⣠⣤⣽⡿⠆⠀⠀⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣇⣿⢰⣿⣤⣶⣾⡿⢿⡿⢿⣿⣶⣦⣌⢢⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣄⣻⣿⣿⣯⣉⡉⣉⣉⣩⣿⣿⣿⣼⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⡋⠠⣤⣤⣤⣴⡾⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣦⡀⠿⠃⣀⣴⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⣿⣿⣿⣿⣿⣷⣶⣶⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣀⡀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣼⠏⠙⢿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠉⣿⣿⣿⣿⠛⡗⠶⢤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⣾⠻⣿⡟⣿⠀⠀⠀⠀⠈⠛⢉⣠⡝⠋⠉⠀⠀⠀⢻⣯⣿⠇⣼⢃⡆⠀⠈⠙⡶⢤⢤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡤⠞⠋⢳⡘⣧⡹⣿⡹⡇⠀⠀⠀⠀⠀⠚⠛⠀⠀⠀⠀⠀⠀⣼⣿⠏⣰⠋⡜⠀⠀⠀⠀⡇⢸⢸⣷⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⢻⠛⡇⠀⠀⠀⠳⣌⢷⡌⢷⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⠏⣴⠋⠐⠁⡀⠀⠀⠀⡇⢸⢸⣿⢹⣯⣻⣷⣦⣤⡀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⣀⣴⣾⣿⠘⡇⢹⠀⠀⠀⠀⠙⢦⡙⢦⣍⡻⠶⣤⣀⣀⠀⠀⠀⣀⣴⣾⡿⢛⣥⠞⡡⠀⠰⣿⡿⣿⡆⠀⠀⢸⠈⣯⠲⣏⠉⢻⣾⣿⡿⣦⡀⠀⠀
-                ⠀⠀⠀⠀⣀⣴⣾⣿⣿⠟⢻⠀⣷⢸⠀⠀⠀⠀⠀⠀⠈⠓⢮⣙⠳⠦⣌⣙⣛⣳⣞⣛⣋⡥⠶⠋⠥⠛⠀⢠⣤⣭⣟⡟⣀⣀⡀⢸⡄⢿⠀⠀⠀⠈⢹⣿⡀⠬⣿⣄⠀
-                ⢀⣠⣶⣿⣿⣿⡉⠉⠀⠀⢸⠀⣿⠸⠀⠀⠀⠀⠀⠀⢀⡤⠄⠈⠙⢒⢦⢀⢈⣉⡉⡁⠀⢀⠀⠀⠀⠀⠀⠈⠛⠛⠛⠻⠿⡛⠛⠈⡇⢸⠀⠀⠀⠀⢸⡟⠳⢆⢈⣿⣄""";
-        //System.out.println(lebron);
-        System.out.println("Yo, what’s good! It's LeBot James in the building! What can I help you with today? Let's get it!");
+    public static String displayIntro() {
+        return "Yo, what’s good! It's LeBot James in the building! What can I help you with today? Let's get it!";
     }
 
-    public static void showList(TaskList tasks) {
+    public static String showList(TaskList tasks) {
         if (tasks.isEmpty()) {
-            System.out.println("Haven’t added anything yet? Can’t win a game if you don’t put the ball in play. Gotta set the goals before you chase them.");
-            return;
+            return "Haven’t added anything yet? Can’t win a game if you don’t put the ball in play. Gotta set the goals before you chase them.";
         }
-        System.out.println("Here’s the list. No excuses, no shortcuts. One by one, we knock these down.");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Here’s the list. No excuses, no shortcuts. One by one, we knock these down.");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + "." + tasks.get(i));
+            sb.append("\n").append(i + 1).append(".").append(tasks.get(i));
         }
+        return sb.toString();
     }
 
-    public static void showFind(TaskList tasks) {
+    public static String showFind(TaskList tasks) {
         if (tasks.isEmpty()) {
-            System.out.println("Scouting report: no matching tasks on your list. Reset, refocus, run it back.");
-            return;
+            return "Scouting report: no matching tasks on your list. Reset, refocus, run it back.";
         }
-        System.out.println("Game plan update: here are the matching tasks in your list.");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Game plan update: here are the matching tasks in your list.");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + "." + tasks.get(i));
+            sb.append("\n").append(i + 1).append(".").append(tasks.get(i));
         }
+        return sb.toString();
     }
 
-    public static void showAdd(Task task, int size) {
-        System.out.println("Got it. Next task on the list: ");
-        System.out.println(task);
-        System.out.println(size + " tasks on the board. Lock in.");
+    public static String showAdd(Task task, int size) {
+        return "Got it. Next task on the list: \n" + task + "\n" + size + " tasks on the board. Lock in.";
     }
 
-    public static void showDelete(Task task, int size) {
-        System.out.println("Scratched it off the list. Recenter yourself: " + task);
-        System.out.println("Now you have " + size + " tasks on the board.");
+    public static String showDelete(Task task, int size) {
+        return "Scratched it off the list. Recenter yourself: " + task + "\n" +
+                "Now you have " + size + " tasks on the board.";
     }
 
-    public static void showMark(Task task) {
-        System.out.println("Checked it off the list. Another step closer to greatness: " + task);
+    public static String showMark(Task task) {
+        return "Checked it off the list. Another step closer to greatness: " + task;
     }
 
-    public static void showUnmark(Task task) {
-        System.out.println("Alright, not done yet. Back in the lab, time to finish the job: " + task);
+    public static String showUnmark(Task task) {
+        return "Alright, not done yet. Back in the lab, time to finish the job: " + task;
     }
 
-    public static void showBye() {
-        System.out.println("Ayy, take care! Hope to see you soon! Stay blessed.");
+    public static String showBye() {
+        return "Ayy, take care! Hope to see you soon! Stay blessed.";
     }
 
-    public static void showInvalidInput() {
-        System.out.println("Invalid input? Happens. Adjust, refocus, try again. That’s how you grow.");
+    public static String showInvalidInput() {
+        return "Invalid input? Happens. Adjust, refocus, try again. That’s how you grow.";
     }
 
-    public static void showNumberError() {
-        System.out.println("Enter a real number... locked in, focused. No shortcuts, just the truth.");
+    public static String showNumberError() {
+        return "Enter a real number... locked in, focused. No shortcuts, just the truth.";
     }
 
-    public static void showBoundsError() {
-        System.out.println("Out of bounds?? Gotta stay within the limits, stay disciplined. Fundamentals matter.");
+    public static String showBoundsError() {
+        return "Out of bounds?? Gotta stay within the limits, stay disciplined. Fundamentals matter.";
     }
 
-    public static void showEmptyTodo() {
-        System.out.println("lebot.tasks.ToDo cannot be empty. Gotta put the ball in play.");
+    public static String showEmptyTodo() {
+        return "lebot.tasks.ToDo cannot be empty. Gotta put the ball in play.";
     }
 
-    public static void showMissingDeadline() {
-        System.out.println("No deadline set, can't achieve greatness like that.");
+    public static String showMissingDeadline() {
+        return "No deadline set, can't achieve greatness like that.";
     }
 
-    public static void showMissingEventTimes() {
-        System.out.println("Gotta specify a time window. Eyes on the prize.");
+    public static String showMissingEventTimes() {
+        return "Gotta specify a time window. Eyes on the prize.";
     }
 
-    public static void showInvalidDate() {
-        System.out.println("Shoot me the date like this, champ: dd/MM/yyyy.");
+    public static String showInvalidDate() {
+        return "Shoot me the date like this, champ: dd/MM/yyyy.";
     }
 
-    public static void showIoError(String msg) {
-        System.out.println("Error writing to file: " + msg);
+    public static String showIoError(String msg) {
+        return "Error writing to file: " + msg;
     }
 }
