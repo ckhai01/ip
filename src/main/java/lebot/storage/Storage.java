@@ -20,7 +20,7 @@ import lebot.ui.Ui;
  * File-based persistence for {@link Task} objects.
  * <p>
  * Stores tasks in {@code data/lebot.LeBot.txt} as one line per task using a
- * pipe-delimited format compatible with {@link Task#formattedString()}:
+ * pipe-delimited format compatible with {@link Task#formatString()}:
  * <ul>
  *   <li>{@code T|<0-or-1>|<description>}</li>
  *   <li>{@code D|<0-or-1>|<description>|<due dd/MM/yyyy>}</li>
@@ -48,7 +48,7 @@ public class Storage {
                 Files.createDirectories(path.getParent());
             }
             String content = list.stream()
-                    .map(Task::formattedString)
+                    .map(Task::formatString)
                     .collect(Collectors.joining(System.lineSeparator()));
 
             Files.writeString(

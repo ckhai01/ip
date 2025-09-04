@@ -70,7 +70,7 @@ public class TaskList {
      *
      * @return task count
      */
-    public int size() {
+    public int getSize() {
         return list.size();
     }
 
@@ -102,17 +102,18 @@ public class TaskList {
      * Handles invalid numbers or out-of-bounds indices by showing error messages.
      *
      * @param desc 1-based index as a string (e.g., {@code "2"})
+     * @return Confirmation message
      */
-    public void markTask(String desc) {
+    public String markTask(String desc) {
         try {
             int number = parseIndex(desc);
             this.list.get(number).markAsDone();
             Storage.saveList(this.list);
-            Ui.showMark(this.list.get(number));
+            return Ui.showMark(this.list.get(number));
         } catch (NumberFormatException e) {
-            Ui.showNumberError();
+            return Ui.showNumberError();
         } catch (IndexOutOfBoundsException | NullPointerException e) {
-            Ui.showBoundsError();
+            return Ui.showBoundsError();
         }
     }
 
@@ -123,17 +124,18 @@ public class TaskList {
      * Handles invalid numbers or out-of-bounds indices by showing error messages.
      *
      * @param desc 1-based index as a string
+     * @return Confirmation message
      */
-    public void unmarkTask(String desc) {
+    public String unmarkTask(String desc) {
         try {
             int number = parseIndex(desc);
             this.list.get(number).unmarkAsDone();
             Storage.saveList(this.list);
-            Ui.showUnmark(this.list.get(number));
+            return Ui.showUnmark(this.list.get(number));
         } catch (NumberFormatException e) {
-            Ui.showNumberError();
+            return Ui.showNumberError();
         } catch (IndexOutOfBoundsException | NullPointerException e) {
-            Ui.showBoundsError();
+            return Ui.showBoundsError();
         }
     }
 
@@ -141,11 +143,12 @@ public class TaskList {
      * Adds a task, saves the list, and shows a confirmation.
      *
      * @param task the task to add
+     * @return Confirmation message
      */
-    public void add(Task task) {
+    public String add(Task task) {
         this.list.add(task);
         Storage.saveList(this.list);
-        Ui.showAdd(task, this.size());
+        return Ui.showAdd(task, this.getSize());
     }
 
     /**
@@ -155,19 +158,20 @@ public class TaskList {
      * Handles invalid numbers or out-of-bounds indices by showing error messages.
      *
      * @param desc 1-based index as a string
+     * @return Confirmation message
      */
-    public void delete(String desc) {
+    public String delete(String desc) {
         try {
             int number = parseIndex(desc);
             Task tempTask = this.list.get(number);
             this.list.remove(number);
             Storage.saveList(list);
-            Ui.showDelete(tempTask, this.size());
+            return Ui.showDelete(tempTask, this.getSize());
 
         } catch (NumberFormatException e) {
-            Ui.showNumberError();
+            return Ui.showNumberError();
         } catch (IndexOutOfBoundsException | NullPointerException e) {
-            Ui.showBoundsError();
+            return Ui.showBoundsError();
         }
     }
 
@@ -176,14 +180,14 @@ public class TaskList {
      * If the description is empty, shows an error via {@link Ui}.
      *
      * @param desc description text
+     * @return Confirmation message
      */
-    public void createTodo(String desc) {
+    public String createTodo(String desc) {
         if (desc.isEmpty()) {
-            Ui.showEmptyTodo();
-            return;
+            return Ui.showEmptyTodo();
         }
         ToDo todo = new ToDo(desc);
-        this.add(todo);
+        return this.add(todo);
     }
 
     /**
@@ -194,19 +198,20 @@ public class TaskList {
      * Shows errors via {@link Ui} if the date is missing or invalid.
      *
      * @param desc full user input containing description and {@code /by} date
+     * @return Confirmation message
      */
-    public void createDeadline(String desc) {
+    public String createDeadline(String desc) {
         String match = findGroup(DEADLINE_BY, desc);
         try {
             if (match != null) {
                 LocalDate.parse(match, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                 Deadline deadline = new Deadline(desc.replace("/by " + match, ""), match);
-                this.add(deadline);
+                return this.add(deadline);
             } else {
-                Ui.showMissingDeadline();
+                return Ui.showMissingDeadline();
             }
         } catch (DateTimeParseException e) {
-            Ui.showInvalidDate();
+            return Ui.showInvalidDate();
         }
 
     }
@@ -219,8 +224,9 @@ public class TaskList {
      * Shows errors via {@link Ui} if dates are missing or invalid.
      *
      * @param desc full user input containing description, {@code /from}, and {@code /to} dates
+     * @return Confirmation message
      */
-    public void createEvent(String desc) {
+    public String createEvent(String desc) {
         String to = findGroup(EVENT_TO, desc);
         String from = findGroup(EVENT_FROM, desc);
 
@@ -230,12 +236,12 @@ public class TaskList {
                 LocalDate.parse(from, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                 String newDesc = desc.replace("/to " + to, "").replace("/from " + from, "");
                 Event event = new Event(newDesc, to, from);
-                this.add(event);
+                return this.add(event);
             } else {
-                Ui.showMissingEventTimes();
+                return Ui.showMissingEventTimes();
             }
         } catch (DateTimeParseException e) {
-            Ui.showInvalidDate();
+            return Ui.showInvalidDate();
         }
 
 
@@ -245,15 +251,16 @@ public class TaskList {
      * Finds the tasks containing a given keyword and displays them.
      *
      * @param desc the keyword to find
+     * @return Confirmation message
      */
-    public void findTasks(String desc) {
+    public String findTasks(String desc) {
         ArrayList<Task> output = new ArrayList<>();
         for (Task task : this.list) {
             if (task.description.contains(desc)) {
                 output.add(task);
             }
         }
-        Ui.showFind(new TaskList(output));
+        return Ui.showFind(new TaskList(output));
 
     }
 
