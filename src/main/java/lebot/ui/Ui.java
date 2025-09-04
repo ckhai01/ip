@@ -15,9 +15,16 @@ public class Ui {
         return "Yo, what’s good! It's LeBot James in the building! What can I help you with today? Let's get it!";
     }
 
+    /**
+     * Formats and returns a string of all tasks in a given TaskList
+     *
+     * @param tasks the list of tasks
+     * @return the string of all tasks. Custom string is returned if TaskList is empty
+     */
     public static String showList(TaskList tasks) {
         if (tasks.isEmpty()) {
-            return "Haven’t added anything yet? Can’t win a game if you don’t put the ball in play. Gotta set the goals before you chase them.";
+            return "Haven’t added anything yet? Can’t win a game if you don’t put the ball in play. "
+                    + "Gotta set the goals before you chase them.";
         }
         StringBuilder sb = new StringBuilder();
         sb.append("Here’s the list. No excuses, no shortcuts. One by one, we knock these down.");
@@ -27,6 +34,12 @@ public class Ui {
         return sb.toString();
     }
 
+    /**
+     * Formats and returns a string of found tasks
+     *
+     * @param tasks the filtered list of tasks
+     * @return the string of all tasks. Custom string is returned if TaskList is empty
+     */
     public static String showFind(TaskList tasks) {
         if (tasks.isEmpty()) {
             return "Scouting report: no matching tasks on your list. Reset, refocus, run it back.";
@@ -43,9 +56,16 @@ public class Ui {
         return "Got it. Next task on the list: \n" + task + "\n" + size + " tasks on the board. Lock in.";
     }
 
+    /**
+     * Formats and returns a string of all tasks in a given TaskList
+     *
+     * @param task the deleted task
+     * @param size the number of tasks after deletion
+     * @return confirmation message of task deletion
+     */
     public static String showDelete(Task task, int size) {
-        return "Scratched it off the list. Recenter yourself: " + task + "\n" +
-                "Now you have " + size + " tasks on the board.";
+        return "Scratched it off the list. Recenter yourself: "
+                + task + "\n" + "Now you have " + size + " tasks on the board.";
     }
 
     public static String showMark(Task task) {
