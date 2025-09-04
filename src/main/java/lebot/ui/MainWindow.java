@@ -26,9 +26,12 @@ public class MainWindow extends AnchorPane {
 
     private LeBotGui leBot;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.png"));
-    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/LeBron.png"));
+    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.png"));
+    private final Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/LeBron.png"));
 
+    /**
+     * Initialises testing environment.
+     */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());

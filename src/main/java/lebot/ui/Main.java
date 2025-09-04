@@ -1,7 +1,5 @@
 package lebot.ui;
 
-import lebot.LeBotCli;
-
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -16,7 +14,7 @@ import lebot.LeBotGui;
  */
 public class Main extends Application {
 
-    private LeBotGui leBot = new LeBotGui();
+    private final LeBotGui leBot = new LeBotGui();
 
     @Override
     public void start(Stage stage) {
