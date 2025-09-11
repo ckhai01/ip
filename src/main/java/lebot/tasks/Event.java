@@ -2,6 +2,7 @@ package lebot.tasks;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  * An event task with a start and end date.
@@ -27,6 +28,7 @@ public class Event extends Task {
      */
     public Event(String desc, String to, String from) {
         super(desc);
+        assert !Objects.equals(to, "") && !Objects.equals(from, "") : "Date is empty";
         this.to = LocalDate.parse(to, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         this.from = LocalDate.parse(from, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }

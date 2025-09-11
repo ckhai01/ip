@@ -2,6 +2,7 @@ package lebot.tasks;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  * A deadline task with a single due date.
@@ -24,6 +25,7 @@ public class Deadline extends Task {
      */
     public Deadline(String desc, String due) {
         super(desc);
+        assert !Objects.equals(due, "") : "Date is empty";
         this.due = LocalDate.parse(due, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
