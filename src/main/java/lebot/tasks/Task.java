@@ -1,5 +1,7 @@
 package lebot.tasks;
 
+import java.util.ArrayList;
+
 /**
  * Base class for all tasks with a text description and a completion flag.
  * <p>
@@ -15,6 +17,7 @@ package lebot.tasks;
 public class Task {
     protected String description;
     protected boolean isDone;
+    protected ArrayList<String> tags;
 
     /**
      * Creates a new task.
@@ -24,6 +27,7 @@ public class Task {
     public Task(String description) {
         this.description = description;
         this.isDone = false;
+        this.tags = new ArrayList<>();
     }
 
     /**
@@ -50,6 +54,15 @@ public class Task {
     }
 
     /**
+     * Adds a tag to the tag list.
+     *
+     * @param tag the tag name for the task
+     */
+    public void addTag(String tag) {
+        tags.add(tag);
+    }
+
+    /**
      * Returns a string combining the status icon and description.
      * <p>
      *     Subclasses extend this format to include their task type, like [T] for {@link ToDo}.
@@ -72,6 +85,24 @@ public class Task {
     public String formatString() {
         String done = isDone ? "1" : "0";
         return "|" + done + "|" + description;
+    }
+
+    /**
+     * Returns a string of tags for display purposes.
+     * <p>
+     * Subclasses use this method to append to the end.
+     *
+     * @return a string in the form {@code #fun, #win}
+     */
+    public String formatTags() {
+        if (tags.isEmpty()) {
+            return "";
+        }
+        StringBuilder output = new StringBuilder();
+        for (String tag : tags) {
+            output.append("#").append(tag).append(", ");
+        }
+        return output.substring(0, output.length() - 2);
     }
 
 }

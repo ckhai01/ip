@@ -22,7 +22,7 @@ public class ToDo extends Task {
      * @return a string like {@code "[T][ ] Win"} or {@code "[T][✓] Win"}
      */
     public String toString() {
-        return "[T]" + super.toString();
+        return "[T]" + super.toString() + " " + super.formatTags();
     }
 
     /**

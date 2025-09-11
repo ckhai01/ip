@@ -42,7 +42,7 @@ public class Event extends Task {
      */
     public String toString() {
         return "[E]" + super.toString() + "(from: " + this.from.format(DateTimeFormatter.ofPattern("MMM d yyyy"))
-                + " to: " + this.to.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
+                + " to: " + this.to.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ") " + super.formatTags();
     }
 
     /**

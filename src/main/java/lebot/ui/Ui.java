@@ -76,6 +76,10 @@ public class Ui {
         return "Alright, not done yet. Back in the lab, time to finish the job: " + task;
     }
 
+    public static String showTag(Task task) {
+        return "Alright, tagged the task: " + task;
+    }
+
     public static String showBye() {
         return "Ayy, take care! Hope to see you soon! Stay blessed.";
     }
