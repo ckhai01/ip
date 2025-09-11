@@ -278,6 +278,7 @@ public class TaskList {
             Task tempTask = this.list.get(number);
             tempTask.addTag(tag);
             this.list.set(number, tempTask);
+            Storage.saveList(this.list);
             return Ui.showTag(tempTask);
 
         } catch (NumberFormatException e) {

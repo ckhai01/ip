@@ -32,7 +32,7 @@ public class ToDo extends Task {
      *
      * @return the serialized representation of this to-do
      */
-    public String formatString() {
-        return "T" + super.formatString();
+    public String saveString() {
+        return "T" + super.saveString();
     }
 }

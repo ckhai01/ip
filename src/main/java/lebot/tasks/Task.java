@@ -82,9 +82,9 @@ public class Task {
      * @return a string in the form {@code |<0-or-1>|<description>}
      */
 
-    public String formatString() {
+    public String saveString() {
         String done = isDone ? "1" : "0";
-        return "|" + done + "|" + description;
+        return "|" + done + "|" + description + "|" + saveTags() + "|";
     }
 
     /**
@@ -103,6 +103,22 @@ public class Task {
             output.append("#").append(tag).append(", ");
         }
         return output.substring(0, output.length() - 2);
+    }
+
+    /**
+     * Returns a string of tags for saving purposes.
+     *
+     * @return a string in the form {@code tag1\tag2}
+     */
+    private String saveTags() {
+        if (this.tags.isEmpty()) {
+            return "`";
+        }
+        StringBuilder output = new StringBuilder();
+        for (String tag : tags) {
+            output.append(tag).append("`");
+        }
+        return output.substring(0, output.length() - 1);
     }
 
 }
