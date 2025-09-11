@@ -32,7 +32,7 @@ import lebot.ui.Ui;
  * On load, a missing file results in an empty list. I/O errors are reported via {@link Ui}.
  */
 public class Storage {
-
+    private static final Path DEFAULT_PATH = Path.of("data/lebot.LeBot.txt");
     /**
      * Persists the given list of tasks to disk at {@code data/lebot.LeBot.txt}.
      * <p>
@@ -42,17 +42,16 @@ public class Storage {
      * @param list the tasks to save
      */
     public static void saveList(ArrayList<Task> list) {
-        Path path = Path.of("data/lebot.LeBot.txt");
         try {
-            if (path.getParent() != null) {
-                Files.createDirectories(path.getParent());
+            if (DEFAULT_PATH.getParent() != null) {
+                Files.createDirectories(DEFAULT_PATH.getParent());
             }
             String content = list.stream()
                     .map(Task::formatString)
                     .collect(Collectors.joining(System.lineSeparator()));
 
             Files.writeString(
-                    path,
+                    DEFAULT_PATH,
                     content,
                     StandardOpenOption.CREATE,
                     StandardOpenOption.TRUNCATE_EXISTING
@@ -72,10 +71,9 @@ public class Storage {
      * @return a list of tasks reconstructed from disk; never {@code null}
      */
     public static ArrayList<Task> loadList() {
-        Path path = Path.of("data/lebot.LeBot.txt");
         ArrayList<Task> list = new ArrayList<>();
         try {
-            Scanner s = new Scanner(new File(path.toString()));
+            Scanner s = new Scanner(new File(DEFAULT_PATH.toString()));
             Task task;
             while (s.hasNextLine()) {
                 String[] tempList = s.nextLine().split("\\|");
