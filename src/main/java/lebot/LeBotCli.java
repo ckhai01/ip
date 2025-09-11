@@ -86,6 +86,9 @@ public class LeBotCli {
         case "event":
             System.out.println(list.createEvent(parsedInput.getDesc()));
             return true;
+        case "tag":
+            System.out.println(list.addTag(parsedInput.getDesc()));
+            return true;
         case "delete":
             System.out.println(list.delete(parsedInput.getDesc()));
             return true;

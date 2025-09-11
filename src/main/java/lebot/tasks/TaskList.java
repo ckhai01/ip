@@ -264,5 +264,30 @@ public class TaskList {
 
     }
 
+    /**
+     * Adds a specified tag to the task.
+     *
+     * @param input command consisting of index and tag.
+     * @return Confirmation message
+     */
+    public String addTag(String input) {
+        try {
+            String indexString = input.split(" ")[0];
+            int number = parseIndex(indexString);
+            String tag = input.replace(indexString + " ", "");
+            Task tempTask = this.list.get(number);
+            tempTask.addTag(tag);
+            this.list.set(number, tempTask);
+            Storage.saveList(this.list);
+            return Ui.showTag(tempTask);
+
+        } catch (NumberFormatException e) {
+            return Ui.showNumberError();
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
+            return Ui.showBoundsError();
+        }
+
+    }
+
 
 }

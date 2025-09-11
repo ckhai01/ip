@@ -37,7 +37,8 @@ public class Deadline extends Task {
      * @return a string like {@code "[D][ ] Submit report (by: Jan 1 2025)"}
      */
     public String toString() {
-        return "[D]" + super.toString() + "(by: " + this.due.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
+        return "[D]" + super.toString() + "(by: " + this.due.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ") "
+                + super.formatTags();
     }
 
     /**
@@ -47,7 +48,7 @@ public class Deadline extends Task {
      *
      * @return the serialized representation of this deadline
      */
-    public String formatString() {
-        return "D" + super.formatString() + "|" + this.due.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    public String saveString() {
+        return "D" + super.saveString() + this.due.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }

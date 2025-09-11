@@ -22,7 +22,7 @@ public class ToDo extends Task {
      * @return a string like {@code "[T][ ] Win"} or {@code "[T][✓] Win"}
      */
     public String toString() {
-        return "[T]" + super.toString();
+        return "[T]" + super.toString() + " " + super.formatTags();
     }
 
     /**
@@ -32,7 +32,7 @@ public class ToDo extends Task {
      *
      * @return the serialized representation of this to-do
      */
-    public String formatString() {
-        return "T" + super.formatString();
+    public String saveString() {
+        return "T" + super.saveString();
     }
 }

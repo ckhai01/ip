@@ -24,6 +24,8 @@ public class MainWindow extends AnchorPane {
     @FXML
     private Button sendButton;
 
+    private TaskList list = new TaskList();
+
     private LeBotGui leBot;
 
     private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.png"));
@@ -40,7 +42,7 @@ public class MainWindow extends AnchorPane {
         );
     }
 
-    /** Injects the Duke instance */
+    /** Injects the instance */
     public void setLebot(LeBotGui d) {
         leBot = d;
     }
@@ -54,10 +56,7 @@ public class MainWindow extends AnchorPane {
         String input = userInput.getText();
 
         Command cmd = new Command(input);
-        TaskList list = new TaskList();
-
-        String response = LeBotGui.dispatchAction(cmd, list);
-
+        String response = LeBotGui.dispatchAction(cmd, this.list);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getDukeDialog(response, dukeImage)

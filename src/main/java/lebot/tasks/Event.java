@@ -42,7 +42,7 @@ public class Event extends Task {
      */
     public String toString() {
         return "[E]" + super.toString() + "(from: " + this.from.format(DateTimeFormatter.ofPattern("MMM d yyyy"))
-                + " to: " + this.to.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
+                + " to: " + this.to.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ") " + super.formatTags();
     }
 
     /**
@@ -52,8 +52,8 @@ public class Event extends Task {
      *
      * @return the serialized representation of this event
      */
-    public String formatString() {
-        return "E" + super.formatString() + "|" + this.to.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "|"
+    public String saveString() {
+        return "E" + super.saveString() + this.to.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "|"
                 + this.from.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }

@@ -39,6 +39,8 @@ public class LeBotGui {
             return list.markTask(parsedInput.getDesc());
         case "unmark":
             return list.unmarkTask(parsedInput.getDesc());
+        case "tag":
+            return list.addTag(parsedInput.getDesc());
         case "bye":
             return Ui.showBye();
         case "todo":
