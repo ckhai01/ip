@@ -29,7 +29,7 @@ public class MainWindow extends AnchorPane {
     private LeBotGui leBot;
 
     private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.png"));
-    private final Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/LeBron.png"));
+    private final Image lebronImage = new Image(this.getClass().getResourceAsStream("/images/LeBron.png"));
 
     /**
      * Initialises testing environment.
@@ -38,7 +38,7 @@ public class MainWindow extends AnchorPane {
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
         dialogContainer.getChildren().addAll(
-                DialogBox.getDukeDialog(Ui.showIntro(), dukeImage)
+                DialogBox.getDukeDialog(Ui.showIntro(), lebronImage)
         );
     }
 
@@ -59,7 +59,7 @@ public class MainWindow extends AnchorPane {
         String response = LeBotGui.dispatchAction(cmd, this.list);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, dukeImage)
+                DialogBox.getDukeDialog(response, lebronImage)
         );
         userInput.clear();
     }
