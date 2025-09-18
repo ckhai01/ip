@@ -1,6 +1,7 @@
 package lebot.command;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,7 @@ public class CommandTest {
     @Test
     public void equals_input_success() {
         String input = "newcommand Task Name";
-        assertEquals("newcommand", new Command(input));
+        assertTrue(new Command(input).equals("newcommand"));
         assertEquals(new Command("newcommand Other Task"), new Command(input));
     }
 }
